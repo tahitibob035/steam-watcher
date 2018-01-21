@@ -1,0 +1,19 @@
+{
+  "name": "steam-watcher",
+  "version": "0.0.1",
+  "description": "Steam Watcher",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll --coverage"
+  },
+  "author": "tahitibob035@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^22.1.4",
+    "nock": "^9.1.6"
+  },
+  "dependencies": {
+    "request-promise": "^4.2.2"
+  }
+}
