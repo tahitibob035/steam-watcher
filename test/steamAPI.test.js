@@ -1,15 +1,14 @@
 const mockedApi = require('./mocks/api');
-const SteamAPI = require('../lib/SteamAPI')
 const config = require('./config.dev.js')
-const steamAPI = new SteamAPI()
+const SteamAPI = require('../lib/SteamAPI')
+const steamAPI = new SteamAPI(config)
+
+beforeEach(() => {
+  mockedApi.appDetails()
+})
 
 describe('steamAPI.getGameInfoById', () => {
-  beforeEach(() => {
-    mockedApi.appDetails()
-  })
-
   it('should get game infos by id', async () => {
-    // console.log('config.gameIds', config.gameIds)
     const gameIds = config.gameIds
     const gameId = gameIds[0]
     const gameInfo = await steamAPI.getGameInfoByIds(gameIds)
@@ -25,25 +24,35 @@ describe('steamAPI.getGameInfoById', () => {
   })
 })
 
+describe('steamAPI.saveStringInFile', () => {
+  it('save String in file', async () => {
+    const testString = 'Meerkat Power'
+    await steamAPI.saveStringInFile(testString)
+    const content = await steamAPI._getContentPrevResult()
+    expect(typeof content).toBe('string')
+    expect(content).toBe(testString)
+  })
+})
 
 describe('steamAPI._getContentPrevResult', () =>  {
-  beforeEach(() => {
-    mockedApi.appDetails()
-  })
-
  it('get content result', async () => {
     const content = await steamAPI._getContentPrevResult()
     expect(typeof content).toBe('string')
   })
 })
 
-// describe('steamAPI.isFluctuacte', () =>  {
-//   beforeEach(() => {
-//     mockedApi.appDetails()
-//   })
-//
-//   it('return true if fluctuation', async () => {
-//     const bFluctuate = await steamAPI.isFluctuacte()
-//     expect(bFluctuate).toBeTruthy()
-//   })
-// })
+describe('steamAPI.isFluctuacte', () =>  {
+  it('return true if prices fluctuate', async () => {
+    const steamAPIDifferentsIds = new SteamAPI({ gameIds : [111, 222] })
+    steamAPIDifferentsIds.saveStringInFile('meerkat')
+    const bFluctuate = await steamAPIDifferentsIds.isFluctuacte()
+    expect(bFluctuate).toBeTruthy()
+  })
+
+  it('return false if same prices', async () => {
+    const steamAPIEquals = new SteamAPI(config)
+    steamAPIEquals.saveStringInFile(JSON.stringify(require('./mocks/gamePriceOverview.json')))
+    const bFluctuate = await steamAPIEquals.isFluctuacte()
+    expect(bFluctuate).toBeFalsy()
+  })
+})

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watchAll --coverage"
+    "test:watch": "jest --watchAll --coverage --watchPathIgnorePatterns 'results'"
   },
   "author": "tahitibob035@gmail.com",
   "license": "ISC",
@@ -14,6 +14,8 @@
     "nock": "^9.1.6"
   },
   "dependencies": {
+    "nodemailer": "^4.4.2",
+    "nodemailer-smtp-transport": "^2.7.4",
     "request-promise": "^4.2.2"
   }
 }
