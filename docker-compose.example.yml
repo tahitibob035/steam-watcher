@@ -5,7 +5,10 @@ services:
     volumes:
       - .:/app
     working_dir: /app
+    restart: unless-stopped
     command: npm start
+    ports:
+      - 8080:8080
     environment:
       - IDS=346110
       - SMTP_HOST=smtp-mail.outlook.com
