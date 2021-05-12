@@ -14,7 +14,7 @@
     "nock": "^9.2.5"
   },
   "dependencies": {
-    "nodemailer": "^4.6.4",
+    "nodemailer": "^6.4.16",
     "nodemailer-smtp-transport": "^2.7.4",
     "request-promise": "^4.2.2"
   }
